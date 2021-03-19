@@ -8,7 +8,8 @@ by crypto#9999
 3. Now add a prefix of your choice
 4. do `npm install` to install all the dependencies and `node index.js` to make your bot online
 ### If this worked for you you may star and fork it!! If you still have any doubts or erorrs you may join my server
-http://invidget.switchblade.xyz/Rh3HjYpR9K
+
+<a href="https://discord.gg/Rh3HjYpR9K"><img src="http://invidget.switchblade.xyz/Rh3HjYpR9K"/></a>
 ```js
 {
 "prefix": "" //your prefix
