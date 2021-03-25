@@ -1,21 +1,57 @@
-const Discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "help",
   description:
-    "Get a list of all command",
-  aliases: ["h"],
+    "Get list of all command and even get to know every command detials",
   usage: "help <cmd>",
-   run: async (client, message, args) => {
-    const embed = new MessageEmbed()
-        .setTitle("Commands")
-        .setDescription(`Total Commands: ${client.commands.size}`)
-        .setColor("BLURPLE")
-        .setTimestamp()
-        .setThumbnail(client.user.displayAvatarURL)
-        .setFooter(message.author.tag, message.author.displayAvatarURL);
-    client.commands.forEach(cmd => {
-        embed.addField(`${cmd.help.name}`, `Aliases: ${cmd.help.aliases.join(", ") || "None"}\nUsage: \`${client.prefix}${cmd.help.usage}\``, true);
-    });
-    return message.channel.send(embed);
-}
+  category: "info",
+  run: async (client, message, args) => {
+    if (args[0]) {
+      const command = await client.commands.get(args[0]);
+
+      if (!command) {
+        return message.channel.send("Unknown Command: " + args[0]);
+      }
+
+      let embed = new MessageEmbed()
+        .setAuthor(command.name, client.user.displayAvatarURL())
+        .addField("Description", command.description || "Not Provided :(")
+        .addField("Usage", "`" + command.usage + "`" || "Not Provied")
+        .setThumbnail(client.user.displayAvatarURL())
+        .setColor("GREEN")
+        .setFooter(client.user.username, client.user.displayAvatarURL());
+
+      return message.channel.send(embed);
+    } else {
+      const commands = await client.commands;
+
+      let emx = new MessageEmbed()
+        .setDescription("**[Join my support server](https://discord.com/invite/Rh3HjYpR9K)**.  | **[Github](https://github.com/TeamDeltaDev/giveaway-bot)**")
+        .setColor("GREEN")
+        .setFooter(client.user.username, client.user.displayAvatarURL())
+        .setThumbnail(client.user.displayAvatarURL());
+
+      let com = {};
+      for (let comm of commands.array()) {
+        let category = comm.category || "Unknown";
+        let name = comm.name;
+
+        if (!com[category]) {
+          com[category] = [];
+        }
+        com[category].push(name);
+      }
+
+      for(const [key, value] of Object.entries(com)) {
+        let category = key;
+
+        let desc = "`" + value.join("`, `") + "`";
+
+        emx.addField(`Commands:`, desc);
+      }
+
+      return message.channel.send(emx);
+    }
+  }
+};
