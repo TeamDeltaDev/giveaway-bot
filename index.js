@@ -13,7 +13,7 @@ client.on("message", async message => {
   const { GiveawaysManager } = require("discord-giveaways");
 // Starts updating currents giveaways
 const manager = new GiveawaysManager(client, {
-    storage: "./handlers/giveaways.json",
+    storage: "./root/giveaways.json",
     updateCountdownEvery: 10000,
     default: {
         botsCanWin: false,
@@ -22,7 +22,7 @@ const manager = new GiveawaysManager(client, {
         reaction: "🎉"
     }
 });
-// We now have a giveawaysManager property to access the manager everywhere!
+  
 client.giveawaysManager = manager;
 
 client.on("message", async message => {
